@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: projecttasker
+  datasource:
+    url: jdbc:mysql://localhost:3306/projecttasker
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+jwt:
+  secret: "767980969d80bab2dd0f3799956b4cc49ae25f4041807a1cea1c94a670"
+  expiration: 86400000
