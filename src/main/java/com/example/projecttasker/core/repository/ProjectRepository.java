@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface ProjectRepository extends JpaRepository<Project,Long> {
     Optional<Project> findByUserId(Long userId);
     boolean existsByNomeProjeto(String nomeProjeto);
-
+    List<Project> findAllByUser_Email(String email);
 }

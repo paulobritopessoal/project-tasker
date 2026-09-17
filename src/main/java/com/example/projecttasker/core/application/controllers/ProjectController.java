@@ -4,9 +4,11 @@ package com.example.projecttasker.core.application.controllers;
 import com.example.projecttasker.core.application.dtos.projectsdtos.ProjectCreateRequestDTO;
 import com.example.projecttasker.core.application.dtos.projectsdtos.ProjectResponseDTO;
 import com.example.projecttasker.core.application.services.ProjectService;
+import com.example.projecttasker.core.domain.usermanagement.User;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +29,8 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectResponseDTO> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(projectService.getById(id));
+    public ResponseEntity<ProjectResponseDTO> getById(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+        return ResponseEntity.ok(projectService.getById(id, currentUser));
     }
 
     @GetMapping

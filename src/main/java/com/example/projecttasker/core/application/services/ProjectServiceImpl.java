@@ -49,11 +49,20 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public ProjectResponseDTO getById(Long id) {
+    public ProjectResponseDTO getById(Long id, User currentUser) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Projecto não encontrado"));
+
+        boolean isOwner = project.getUser().getEmail().equals(currentUser.getEmail());
+        boolean isAdmin = currentUser
+                .getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isOwner && !isAdmin) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Sem permissão para aceder a este projeto");
+        }
         return ProjectMapper.toDTO(project);
     }
+
 
     @Override
     public List<ProjectResponseDTO> getAll() {

@@ -12,5 +12,5 @@ public record TaskSummaryDTO(
         int priority,
         double estimateH,
         LocalDate completedAt,
-        UserResponseDTO assignee
+        UserResponseDTO userResponseDTO
 ) {}

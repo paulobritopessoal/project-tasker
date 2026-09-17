@@ -7,6 +7,7 @@ import com.example.projecttasker.core.domain.usermanagement.Roles;
 import com.example.projecttasker.core.domain.usermanagement.User;
 import com.example.projecttasker.core.repository.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class
+UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -50,6 +52,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return UserMapper.toDTO(user);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     public List<UserResponseDTO> getAll() {
         return userRepository.findAll().stream()
