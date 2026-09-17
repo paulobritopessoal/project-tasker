@@ -54,10 +54,7 @@ public class ProjectServiceImpl implements ProjectService{
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Projecto não encontrado"));
 
         boolean isOwner = project.getUser().getEmail().equals(currentUser.getEmail());
-        boolean isAdmin = currentUser
-                .getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
-        if (!isOwner && !isAdmin) {
+        if (!isOwner && !isAdmin(currentUser)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Sem permissão para aceder a este projeto");
         }
         return ProjectMapper.toDTO(project);
@@ -65,9 +62,16 @@ public class ProjectServiceImpl implements ProjectService{
 
 
     @Override
-    public List<ProjectResponseDTO> getAll() {
-        return projectRepository.findAll().stream()
-                .map(ProjectMapper::toDTO)
-                .toList();
+    public List<ProjectResponseDTO> getAll(User currentUser) {
+
+        List<Project> projects = isAdmin(currentUser)
+                ? projectRepository.findAll()
+                : projectRepository.findAllByUser_Email(currentUser.getEmail());
+
+        return projects.stream().map(ProjectMapper::toDTO).toList();
+    }
+
+    private boolean isAdmin(User user){
+        return user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 }

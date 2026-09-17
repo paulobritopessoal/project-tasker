@@ -10,6 +10,6 @@ import java.util.List;
 public interface ProjectService {
     ProjectResponseDTO create(ProjectCreateRequestDTO project);
     ProjectResponseDTO getById(Long id, User currentUser);
-    List<ProjectResponseDTO> getAll();
+    List<ProjectResponseDTO> getAll(User currentUser);
 
 }

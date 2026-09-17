@@ -34,7 +34,7 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProjectResponseDTO>> getAll() {
-        return ResponseEntity.ok(projectService.getAll());
+    public ResponseEntity<List<ProjectResponseDTO>> getAll(@AuthenticationPrincipal User currentUser) {
+        return ResponseEntity.ok(projectService.getAll(currentUser));
     }
 }
