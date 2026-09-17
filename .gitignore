@@ -19,8 +19,8 @@ target/
 *.iml
 *.ipr
 
-.env
-.env*
+*.env
+*.env*
 
 ### NetBeans ###
 /nbproject/private/
@@ -37,4 +37,4 @@ build/
 
 
 ## CLAUDE ##
-.CLAUDE.md
+CLAUDE.md
